@@ -3,14 +3,17 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
-import { fileURLToPath } from "url";
+import {
+  fileURLToPath
+} from "url";
 
 import userRoutes from "./routes/users.js";
 import imageRoutes from "./routes/images.js";
 import paletteRoutes from "./routes/palettes.js";
 import progressRoutes from "./routes/progress.js";
 
-const __filename = fileURLToPath(import.meta.url);
+const __filename = fileURLToPath(
+  import.meta.url);
 const __dirname = path.dirname(__filename);
 
 dotenv.config();
@@ -18,23 +21,28 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
-const corsOptions = {
-  origin: process.env.NODE_ENV === "production" 
-    ? [process.env.FRONTEND_URL || "https://kids-colors-app.onrender.com"]
-    : [
-        "http://localhost:5173", // Vite dev server
-        "http://localhost:5174", // Alternative Vite port
-        "http://localhost:3000", // Alternative port
-        "http://127.0.0.1:5173", // Alternative localhost
-        "http://localhost:4173", // Vite preview
-      ],
-  credentials: true,
-  optionsSuccessStatus: 200,
-};
-app.use(cors(corsOptions));
-app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ extended: true, limit: "50mb" }));
+// // Middleware
+// const corsOptions = {
+//   origin: process.env.NODE_ENV === "production" 
+//     ? [process.env.FRONTEND_URL || "https://kids-colors-app.onrender.com"]
+//     : [
+//         "http://localhost:5173", // Vite dev server
+//         "http://localhost:5174", // Alternative Vite port
+//         "http://localhost:3000", // Alternative port
+//         "http://127.0.0.1:5173", // Alternative localhost
+//         "http://localhost:4173", // Vite preview
+//       ],
+//   credentials: true,
+//   optionsSuccessStatus: 200,
+// };
+// app.use(cors(corsOptions));
+app.use(express.json({
+  limit: "50mb"
+}));
+app.use(express.urlencoded({
+  extended: true,
+  limit: "50mb"
+}));
 
 // MongoDB connection
 const connectDB = async () => {
@@ -61,7 +69,10 @@ app.use("/progress", progressRoutes);
 
 // Health check endpoint
 app.get("/health", (req, res) => {
-  res.json({ status: "OK", message: "Server is running" });
+  res.json({
+    status: "OK",
+    message: "Server is running"
+  });
 });
 
 if (process.env.NODE_ENV === "production") {
